@@ -10,7 +10,7 @@ import utilities.TestBase_Each;
 import java.io.File;
 import java.io.IOException;
 
-public class C01_EkranGoruntusuKaydetme extends TestBase_Each {
+public class C03_WebElementScreenshot extends TestBase_Each {
 
     @Test
     public void test01() throws IOException {
@@ -52,25 +52,24 @@ public class C01_EkranGoruntusuKaydetme extends TestBase_Each {
         Assertions.assertTrue(actualIsim.contains(expectedIsimIcerik));
 
         // testin sorunsuz calistigini ispatlamak icin
-        // sayfanin screenshot'ini alip kaydedin
+        // urun isminin screenshot'ini alip kaydedin
 
-        // 1. adim : TakesScreenshot objesi olusturun ve deger olarak driver'i atayip cast edin
+        // 1. adim : screenshot alinmasi istenen Webelement'i locate edip kaydedin
+                // biz zaten locate edip kaydettik
 
-        TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+        // 2. adim : screenshot'in kaydedilecegi asil File'i olusturun
 
-        // 2. adim : ekran goruntusunu kaydedecegimiz File'i olusturun
-        //           parametre olarak kaydetmek istediginiz dosyanin, dosya yolunu girin.
+        File asilResim = new File("target/screenshots/WebElementScreenshot.jpg");
 
-        File asilResim = new File("target/screenshots/isimliTumSayfaScreenshot.jpg");
+        // 3. adim : resmini cekmek istediginiz webElement uzerinden get.screenshot() kullanin
+        File geciciResim = isimElementi.getScreenshotAs(OutputType.FILE);
 
-        // 3. adim : olusturdugunuz takeScreenshot objesi ile ekran goruntusunu alip
-        //           gecici bir File'a kaydedin
-
-        File geciciResim = takesScreenshot.getScreenshotAs(OutputType.FILE);
-
-        // 4. adim : gecici dosyayi, asilResim dosyasina kopyalayin
-
+        // 4. adim : FileUtils ile gecici dosyayi asilResim dosyasina kopyalayin.
         FileUtils.copyFile(geciciResim,asilResim);
+
+        ReusableMethods.webElementScreenshot(isimElementi);
+        ReusableMethods.isimliWebElementScreenshot(isimElementi,"ilkUrunTesti");
+
 
         driver.quit();
 
@@ -81,7 +80,6 @@ public class C01_EkranGoruntusuKaydetme extends TestBase_Each {
 
 
     }
-
 
 
 }
